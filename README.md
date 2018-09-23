@@ -11,3 +11,5 @@ C. For linux systems Paths must be separated with "/"
 D. The code will first install required packages ("Pandas" package will be installed in first run if it is not installed on your system)
 
 E. Please note that the code is developed on python version 3.0 and above
+
+F. "Output_EndOfDay_Positions" file is the file generated with the code . This file matches with        "Expected_EndOfDay_Positions" file
