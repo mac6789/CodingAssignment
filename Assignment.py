@@ -95,4 +95,5 @@ for i in range(0,nrow):
         endofday_position_df.append([instrument,account,account_type,quantity,delta])
 output_end_of_day_position_df = pd.DataFrame(endofday_position_df, columns=endofday_position_df_columns)
 
+# Write enf of day position file to writepath
 output_end_of_day_position_df.to_csv(cfg.output_file['writepath'],index = False)
