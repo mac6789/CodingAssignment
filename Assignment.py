@@ -4,6 +4,7 @@ import pip
 import subprocess
 import sys
 import json
+import config as cfg
 
 try:
     from pip import main as pipmain
@@ -14,7 +15,7 @@ except:
 
 reqs = subprocess.check_output([sys.executable, '-m', 'pip', 'freeze'])
 installed_packages = [r.decode().split('==')[0] for r in reqs.split()] 
-print(installed_packages)
+
 if 'pandas' in installed_packages:
     pass
 else:
@@ -22,18 +23,9 @@ else:
 import pandas as pd
 
 
-# Specify the file path for input transactions of the day
-input_transaction_path = 'C:\\Users\\Admin\\Downloads\\topurgentcodingassignment\\Input_Transactions.txt'
-
-# Specify the file path for input start day of the position
-start_day_position_path = "C:\\Users\\Admin\\Downloads\\topurgentcodingassignment\\Input_StartOfDay_Positions.txt"
-
-# Specify the writepath where you want to write end of day position file
-writepath = "C:\\Users\\Admin\\Downloads\\topurgentcodingassignment\\Output_EndOfDay_Positions.txt"
-
-# Read file from path and load json data with exception handling
+# Read input transaction file from path and load json data with exception handling
 try:
-    with open(input_transaction_path) as json_data:
+    with open(cfg.input_files['input_transaction_path']) as json_data:
         transactions = json.load(json_data)
 except FileNotFoundError:
     print("Wrong Input_Transactions file or file path")
@@ -43,7 +35,7 @@ transaction_df = pd.DataFrame([i.values() for i in transactions],columns=transac
 
 # Read Start of the day position into pandas dataframe
 try:
-    start_position_df = pd.read_csv(start_day_position_path)
+    start_position_df = pd.read_csv(cfg.input_files['start_day_position_path'])
 except FileNotFoundError:
     print("Wrong Input_StartOfDay_Positions file or file path")
 except:
@@ -103,4 +95,4 @@ for i in range(0,nrow):
         endofday_position_df.append([instrument,account,account_type,quantity,delta])
 output_end_of_day_position_df = pd.DataFrame(endofday_position_df, columns=endofday_position_df_columns)
 
-output_end_of_day_position_df.to_csv(writepath,index = False)
+output_end_of_day_position_df.to_csv(cfg.output_file['writepath'],index = False)
